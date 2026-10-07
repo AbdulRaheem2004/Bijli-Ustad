@@ -1,0 +1,75 @@
+{
+  "version": "2024-2025.1",
+  "last_updated": "2024-10-01",
+  "currency": "PKR",
+  "tariffs": {
+    "domestic_single_phase": {
+      "name": "Domestic Single Phase (A-1)",
+      "lifeline_threshold": 50,
+      "lifeline_rate": 3.95,
+      "protected_qualifying_threshold": 200,
+      "protected_lookback_months": 6,
+      "protected_slabs": [
+        { "min": 1, "max": 100, "rate": 7.74, "name": "1 - 100 Units (Protected)" },
+        { "min": 101, "max": 200, "rate": 10.06, "name": "101 - 200 Units (Protected)" }
+      ],
+      "unprotected_slabs": [
+        { "min": 1, "max": 100, "rate": 16.48, "name": "1 - 100 Units" },
+        { "min": 101, "max": 200, "rate": 22.95, "name": "101 - 200 Units" },
+        { "min": 201, "max": 300, "rate": 27.14, "name": "201 - 300 Units" },
+        { "min": 301, "max": 400, "rate": 32.03, "name": "301 - 400 Units" },
+        { "min": 401, "max": 500, "rate": 35.24, "name": "401 - 500 Units" },
+        { "min": 501, "max": 600, "rate": 36.66, "name": "501 - 600 Units" },
+        { "min": 601, "max": 700, "rate": 37.80, "name": "601 - 700 Units" },
+        { "min": 701, "max": 999999, "rate": 42.72, "name": "Above 700 Units" }
+      ]
+    },
+    "domestic_three_phase_tou": {
+      "name": "Domestic 3-Phase Time of Use (TOU)",
+      "peak_rate": 41.89,
+      "off_peak_rate": 35.57,
+      "fixed_charge_per_kw": 200,
+      "default_sanctioned_load_kw": 5,
+      "peak_hours_schedule": {
+        "summer": "6:00 PM to 10:00 PM (May - Oct)",
+        "winter": "5:00 PM to 9:00 PM (Nov - Apr)"
+      }
+    },
+    "commercial_three_phase": {
+      "name": "Commercial (A-2)",
+      "peak_rate": 44.50,
+      "off_peak_rate": 38.20,
+      "fixed_charge_per_kw": 400,
+      "default_sanctioned_load_kw": 5
+    },
+    "solar_net_metering": {
+      "name": "Solar Net-Metering (Bi-Directional)",
+      "export_credit_rate": 22.00,
+      "settlement_period": "Quarterly",
+      "rules": "Solar export units offset off-peak units directly. Peak units must be paid separately or offset per DISCO seasonal net settlement rules."
+    }
+  },
+  "surcharges_and_taxes": {
+    "fc_surcharge_per_unit": 3.23,
+    "fpa_default_per_unit": 1.74,
+    "qta_default_per_unit": 1.25,
+    "gst_percent": 18.0,
+    "electricity_duty_percent": 1.5,
+    "tv_fee_domestic": 35.0,
+    "tv_fee_commercial": 60.0,
+    "income_tax_threshold": 25000,
+    "income_tax_percent_non_filer": 7.5
+  },
+  "discos": [
+    { "id": "lesco", "name": "LESCO (Lahore)", "portal_code": "lesco", "ed_rate": 1.5 },
+    { "id": "iesco", "name": "IESCO (Islamabad/Rawalpindi)", "portal_code": "iesco", "ed_rate": 1.5 },
+    { "id": "mepco", "name": "MEPCO (Multan/South Punjab)", "portal_code": "mepco", "ed_rate": 1.5 },
+    { "id": "fesco", "name": "FESCO (Faisalabad)", "portal_code": "fesco", "ed_rate": 1.5 },
+    { "id": "gepco", "name": "GEPCO (Gujranwala)", "portal_code": "gepco", "ed_rate": 1.5 },
+    { "id": "pesco", "name": "PESCO (Peshawar/KPK)", "portal_code": "pesco", "ed_rate": 1.5 },
+    { "id": "hesco", "name": "HESCO (Hyderabad)", "portal_code": "hesco", "ed_rate": 1.5 },
+    { "id": "sepco", "name": "SEPCO (Sukkur)", "portal_code": "sepco", "ed_rate": 1.5 },
+    { "id": "qesco", "name": "QESCO (Quetta/Balochistan)", "portal_code": "qesco", "ed_rate": 1.5 },
+    { "id": "ke", "name": "K-Electric (Karachi)", "portal_code": "ke", "ed_rate": 1.5 }
+  ]
+}

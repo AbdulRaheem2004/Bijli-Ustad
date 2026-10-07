@@ -1,0 +1,84 @@
+{
+  "version": "2024-2025.1",
+  "authority": "National Electric Power Regulatory Authority (NEPRA) & Ministry of Energy (Power Division)",
+  "sources": [
+    {
+      "id": "sro-base-tariffs-2023-2024",
+      "sro_number": "S.R.O. 1021(I)/2023",
+      "gazette_date": "2023-07-26",
+      "issuing_authority": "Ministry of Energy (Power Division), Government of Pakistan",
+      "title": "Uniform Tariff Determination for ex-WAPDA Distribution Companies (DISCOs)",
+      "applies_to": [
+        "domestic_single_phase.protected_slabs",
+        "domestic_single_phase.unprotected_slabs",
+        "domestic_three_phase_tou.peak_rate",
+        "domestic_three_phase_tou.off_peak_rate"
+      ],
+      "nepra_url": "https://nepra.org.pk/tariff/Tariff%20Determinations.php",
+      "summary": "Establishes baseline per-unit rates for Lifeline (<=50 units), Protected (1-100, 101-200), Unprotected slabs (1-700+), and Time-of-Use Peak/Off-Peak periods."
+    },
+    {
+      "id": "sro-protected-criteria",
+      "sro_number": "S.R.O. 575(I)/2024 & Ministry Decision",
+      "gazette_date": "2024-04-18",
+      "issuing_authority": "Ministry of Energy (Power Division) / NEPRA",
+      "title": "Criteria for Classification of Protected Residential Consumers",
+      "applies_to": [
+        "domestic_single_phase.protected_qualifying_threshold",
+        "domestic_single_phase.protected_lookback_months"
+      ],
+      "nepra_url": "https://nepra.org.pk/Standards/Consumer%20Service%20Manual.php",
+      "summary": "Defines protected consumers as residential non-TOU users whose electricity consumption has not exceeded 200 units in any single month during the last 6 consecutive months."
+    },
+    {
+      "id": "sro-fc-surcharge",
+      "sro_number": "S.R.O. 342(I)/2023",
+      "gazette_date": "2023-03-22",
+      "issuing_authority": "Federal Government / NEPRA Section 31(8)",
+      "title": "Financing Cost Surcharge (Debt Servicing Surcharge)",
+      "applies_to": ["surcharges_and_taxes.fc_surcharge_per_unit"],
+      "rate": "Rs. 3.23 per kWh",
+      "summary": "Surcharge levied on all electricity consumption (except lifeline) to fund power sector debt servicing and circular debt repayment."
+    },
+    {
+      "id": "nepra-fpa-framework",
+      "sro_number": "Section 31(7) of NEPRA Act (Monthly Determination)",
+      "gazette_date": "Updated Monthly",
+      "issuing_authority": "NEPRA",
+      "title": "Monthly Fuel Charges Adjustment (FPA)",
+      "applies_to": ["surcharges_and_taxes.fpa_default_per_unit"],
+      "summary": "Monthly adjustment accounting for actual fuel mix costs (hydel, coal, RLNG, nuclear) vs. reference fuel costs established in base tariff."
+    },
+    {
+      "id": "sales-tax-act-1990",
+      "sro_number": "Sales Tax Act 1990 (Section 3)",
+      "gazette_date": "Finance Act 2023/2024",
+      "issuing_authority": "Federal Board of Revenue (FBR)",
+      "title": "General Sales Tax (GST) on Electricity Consumption",
+      "applies_to": ["surcharges_and_taxes.gst_percent"],
+      "rate": "18.0%",
+      "summary": "Standard sales tax charged on total cost of electricity including base tariff and surcharges."
+    },
+    {
+      "id": "income-tax-section-235",
+      "sro_number": "Income Tax Ordinance 2001 (Section 235)",
+      "gazette_date": "Finance Act",
+      "issuing_authority": "Federal Board of Revenue (FBR)",
+      "title": "Advance Tax on Electricity Consumption for Non-Filers",
+      "applies_to": [
+        "surcharges_and_taxes.income_tax_threshold",
+        "surcharges_and_taxes.income_tax_percent_non_filer"
+      ],
+      "summary": "7.5% withholding tax levied on domestic electricity bills exceeding Rs. 25,000 for consumers not appearing on the Active Taxpayer List (ATL)."
+    },
+    {
+      "id": "solar-net-metering-regulations",
+      "sro_number": "S.R.O. 892(I)/2015 as amended",
+      "gazette_date": "2015-09-01",
+      "issuing_authority": "NEPRA",
+      "title": "NEPRA (Alternative & Renewable Energy) Distributed Generation and Net Metering Regulations",
+      "applies_to": ["tariffs.solar_net_metering"],
+      "summary": "Statutory rules permitting 3-phase consumers to install bidirectional meters and supply surplus distributed renewable generation back to the grid."
+    }
+  ]
+}

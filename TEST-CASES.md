@@ -1,52 +1,35 @@
-# Comprehensive Test Plan: Bijli Bill Explainer
+# Comprehensive Test Plan: Bijli Bill Explainer & Estimator
 
 Format: `[Test ID] | [Category] | [Priority] | Description -> Expected Output`
 
-## A. Tariff Engine Unit Tests (Core Logic)
-- **TE-01** | `Engine` | `P0` | Single-phase protected consumer: 150 units -> Match NEPRA exact rates; ensure no unprotected slab rates apply.
-- **TE-02** | `Engine` | `P0` | Single-phase unprotected: 250 units -> Calculate with slab escalation (0-100, 101-200, 201-300 slabs).
-- **TE-03** | `Engine` | `P0` | Single-phase heavy: 500 units, 750 units -> Verify correct highest slab jumps and time-of-use if applicable.
-- **TE-04** | `Engine` | `P0` | 3-phase domestic: 200 peak + 300 off-peak units -> Separate tariff calculation for peak/off-peak.
-- **TE-05** | `Engine` | `P0` | 3-phase commercial: Fixed charges + per-unit with peak/off-peak -> Verify fixed charge application.
-- **TE-06** | `Engine` | `P0` | Solar net-metering: 400 import, 350 export -> Net billing calculation (50 units billed).
-- **TE-07** | `Engine` | `P0` | Solar net-metering: Export > Import -> Verify credit handling/rollover tracking logic.
-- **TE-08** | `Engine` | `P0` | FPA calculation -> Verify FPA amount matches (units × current per-unit FPA rate).
-- **TE-09** | `Engine` | `P0` | Taxes & Surcharges -> Validate exact calculation of QTA, FC surcharge, Electricity Duty, GST (17%), and TV Fee (Rs. 35).
-- **TE-10** | `Engine` | `P1` | Edge: 0 units -> Minimum charge applies.
-- **TE-11** | `Engine` | `P1` | Edge: Exactly 200 units -> Ensure protected boundary holds (if applicable by latest rules).
-- **TE-12** | `Engine` | `P1` | Edge: 201 units -> Ensure unprotected trigger applies entirely.
-- **TE-13** | `Engine` | `P1` | Cross-DISCO -> Validate that same units across different DISCOs yield correct differing Electricity Duty rates.
+## A. Tariff & Estimator Engine Tests (Core Deterministic Logic)
+- **TE-01** | `Engine` | `P0` | Single-phase protected: 150 units -> Calculate exact protected slab rates; assert no unprotected rates apply.
+- **TE-02** | `Engine` | `P0` | Single-phase unprotected: 205 units -> Crossing 200 threshold triggers unprotected calculation across all slabs with cliff penalty warning.
+- **TE-03** | `Engine` | `P0` | Lifeline boundary: 50 units -> Match lifeline tariff (Rs. 3.95/unit base).
+- **TE-04** | `Engine` | `P0` | 3-Phase TOU: 180 peak + 320 off-peak units -> Separate tariff applied to peak vs off-peak units with fixed kW charges.
+- **TE-05** | `Engine` | `P0` | Solar Net-Metering: 400 import, 550 export -> Zero net grid unit charge, 150 units rolled over as credit.
+- **TE-06** | `Engine` | `P0` | Tax and surcharge stack -> Verify exact calculation of FC Surcharge (Rs. 3.23/unit), FPA, QTA, Electricity Duty (1.5%), GST (18%), and TV fee (Rs. 35).
+- **TE-07** | `Engine` | `P1` | Advance Income Tax -> Bills exceeding Rs. 25,000 calculate Section 235 advance income tax for non-filers.
+- **TE-08** | `Engine` | `P1` | Cross-DISCO verification -> Verify distinct rates and provincial duties between LESCO, K-Electric, and IESCO.
 
-## B. Gemini Vision OCR Tests
-- **VIS-01** | `Vision` | `P0` | Upload clear LESCO bill -> Extracted units, consumer type, and ref number match bill.
-- **VIS-02** | `Vision` | `P0` | Upload K-Electric bill -> Correctly parse different format.
-- **VIS-03** | `Vision` | `P1` | Upload blurry/low-quality photo -> Graceful fallback to manual entry mode with friendly error.
-- **VIS-04** | `Vision` | `P1` | Upload non-bill image (e.g., cat photo) -> Explicit rejection message ("This doesn't look like an electricity bill").
-- **VIS-05** | `Vision` | `P1` | API rate limit hit -> Seamless fallback to manual mode.
-- **VIS-06** | `Vision` | `P0` | Network offline -> Disable upload button or immediately trigger local-only manual mode.
+## B. Credible Source & SRO Manifest Tests
+- **SRO-01** | `Manifest` | `P0` | Manifest completeness -> Every rate in `tariffs.json` has a corresponding entry in `tariffs-source-manifest.json` with SRO number, Gazette date, and source link.
+- **SRO-02** | `Manifest` | `P1` | Feed sync & fallback -> If remote CDN feed is unreachable, app gracefully falls back to local offline cache without throwing.
 
-## C. UI / UX Tests
-- **UI-01** | `UX` | `P0` | Form validation -> Non-numeric units, negative values, absurdly high values (e.g., 50,000) show helpful errors.
-- **UI-02** | `UX` | `P0` | Responsive layout -> Verify rendering on 320px, 375px, 768px, 1024px viewports.
-- **UI-03** | `UX` | `P0` | RTL Urdu typography -> Text renders correctly RTL and Nastaliq font stack is actively loaded.
-- **UI-04** | `UX` | `P1` | Dark mode -> Toggle works and contrasts meet AA standards.
-- **UI-05** | `UX` | `P1` | Visualizations -> Pie chart renders with correct proportional wedges for bill breakdown.
-- **UI-06** | `UX` | `P2` | Contextual advice -> "How to reduce" changes based on user's slab (e.g., generic vs. peak-hour focus).
-- **UI-07** | `UX` | `P0` | Accessibility -> Fully keyboard navigable, screen reader readable.
-- **UI-08** | `UX` | `P0` | Touch targets -> All interactive elements ≥ 44x44px.
+## C. Local RAG Knowledge Retrieval & Chat Tests
+- **RAG-01** | `RAG` | `P0` | Query "What is FPA?" -> Retrieves Section 31(7) NEPRA fuel price adjustment clause with statutory basis.
+- **RAG-02** | `RAG` | `P0` | Query "Why did my bill jump above 200 units?" -> Retrieves Power Division Protected vs Unprotected 6-month rule.
+- **RAG-03** | `RAG` | `P0` | Query "Detection bill rules" in Roman Urdu ("kya meter slow hone pe detection bill dal sakte hain?") -> Retrieves NEPRA CSM Chapter 5 detection bill procedure.
+- **RAG-04** | `RAG` | `P1` | Contextual bill injection -> Chatbot answers incorporating the user's active units and estimated bill.
 
-## D. Privacy Tests
-- **PRV-01** | `Privacy` | `P0` | Image handling -> Bill photo blob is destroyed/not persisted after OCR session ends.
-- **PRV-02** | `Privacy` | `P0` | Local mode isolation -> No network requests made to any API in local-only mode.
-- **PRV-03** | `Privacy` | `P0` | Notice visibility -> Privacy notice clearly visible and readable in Urdu before upload.
+## D. Duplicate Bill Fetcher & Parsing Tests
+- **FET-01** | `Fetcher` | `P0` | 14-digit PITC reference number format validation -> Rejects invalid lengths and non-numeric characters.
+- **FET-02** | `Fetcher` | `P0` | Duplicate bill parser -> Successfully extracts consumer name, reference number, units, and billing month.
+- **FET-03** | `Parser` | `P1` | Local digital PDF ingestion -> Client-side parser extracts billing fields with zero network requests.
 
-## E. Performance Tests
-- **PERF-01** | `Perf` | `P0` | LCP -> Largest Contentful Paint < 2s on simulated 3G throttle.
-- **PERF-02** | `Perf` | `P1` | Bundle size -> Total JS/CSS bundle < 200KB gzipped (excluding optional WebLLM).
-- **PERF-03** | `Perf` | `P0` | Engine speed -> Tariff calculation execution completes in < 50ms.
-
-## F. Cross-Browser Tests
-- **XB-01** | `Compat` | `P0` | Chrome Android -> Fully functional.
-- **XB-02** | `Compat` | `P0` | Samsung Internet -> Fully functional.
-- **XB-03** | `Compat` | `P0` | Safari iOS -> Fully functional.
-- **XB-04** | `Compat` | `P1` | Chrome Desktop -> Fully functional (responsive scaling).
+## E. UI / UX & Impeccable Standards Tests
+- **UI-01** | `UI` | `P0` | Dual input synchronization -> Changing direct numeric input updates slider; moving slider updates numeric input.
+- **UI-02** | `UI` | `P0` | Tabular numbers -> All currency and unit values render with tabular numerals (`tabular-nums`) to prevent layout shift.
+- **UI-03** | `UI` | `P0` | Responsive layout -> Seamless rendering on both mobile (320px-375px) and desktop (1024px+).
+- **UI-04** | `UI` | `P0` | Nastaliq typography -> Urdu text correctly applies Noto Nastaliq Urdu font stack with RTL direction.
+- **UI-05** | `UI` | `P1` | Dark mode toggle -> Meets WCAG 2.1 AA contrast requirements ($\ge 4.5:1$).
