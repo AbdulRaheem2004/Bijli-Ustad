@@ -39,13 +39,14 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
     units,
   });
 
-  const isProtected = bill.isProtectedEligible && units <= 200;
+  const isLifeline = units <= 50 && connectionType === 'domestic_single_phase_protected';
+  const isProtected = !isLifeline && bill.isProtectedEligible && units <= 200 && connectionType === 'domestic_single_phase_protected';
   const isRtl = language === 'urdu';
 
   const electricityPercent = Math.round(
-    (bill.baseElectricityCost / bill.netPayableWithinDueDate) * 100
+    (bill.baseElectricityCost / (bill.netPayableWithinDueDate || 1)) * 100
   );
-  const taxesPercent = 100 - electricityPercent;
+  const taxesPercent = Math.max(0, 100 - electricityPercent);
 
   return (
     <div className={`space-y-6 ${isRtl ? 'font-nastaliq text-right' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
@@ -103,14 +104,17 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
               <div className="flex items-center gap-2">
                 <input
                   type="number"
-                  min="1"
-                  max="5000"
+                  min="0"
+                  max="9999"
                   value={units}
                   onChange={(e) => {
-                    const u = parseInt(e.target.value, 10) || 0;
+                    const raw = parseInt(e.target.value, 10);
+                    const u = isNaN(raw) ? 0 : Math.max(0, Math.min(9999, raw));
                     setUnits(u);
-                    if (u > 200) {
+                    if (u > 200 && connectionType === 'domestic_single_phase_protected') {
                       setConnectionType('domestic_single_phase_unprotected');
+                    } else if (u <= 200 && connectionType === 'domestic_single_phase_unprotected') {
+                      setConnectionType('domestic_single_phase_protected');
                     }
                   }}
                   className="flex-1 px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-700 text-base font-bold font-mono text-emerald-400 outline-none focus:border-emerald-500 tabular-nums"
@@ -129,7 +133,7 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
                 className="w-full px-3 py-2 rounded-lg bg-neutral-950 border border-neutral-700 text-xs text-neutral-200 outline-none focus:border-emerald-500"
               >
                 <option value="domestic_single_phase_protected">
-                  Domestic Single Phase (Protected &le; 200 Units)
+                  Domestic Single Phase (Protected &le; 200 / Lifeline &le; 50 Units)
                 </option>
                 <option value="domestic_single_phase_unprotected">
                   Domestic Single Phase (Unprotected)
@@ -142,16 +146,29 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
             </div>
           </div>
 
-          {/* Protected / Unprotected Status Card */}
+          {/* Status Card: Lifeline vs Protected vs Unprotected */}
           <div
             className={`p-5 rounded-xl border space-y-3 ${
-              isProtected
+              isLifeline
+                ? 'bg-teal-950/40 border-teal-700/60 text-teal-200'
+                : isProtected
                 ? 'bg-emerald-950/30 border-emerald-800/60 text-emerald-200'
                 : 'bg-amber-950/30 border-amber-800/60 text-amber-200'
             }`}
           >
             <div className="flex items-center gap-2 font-bold text-sm">
-              {isProtected ? (
+              {isLifeline ? (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-teal-400" />
+                  <span>
+                    {language === 'urdu'
+                      ? 'لائف لائن رعایتی صارف کیٹیگری فعال ہے (≤ 50 یونٹ)'
+                      : language === 'roman_urdu'
+                      ? 'Lifeline Subsidized Status Active (≤ 50 Units)'
+                      : 'Lifeline Subsidized Tariff Active (≤ 50 Units)'}
+                  </span>
+                </>
+              ) : isProtected ? (
                 <>
                   <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                   <span>
@@ -173,14 +190,20 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
             </div>
 
             <p className="text-xs leading-relaxed text-neutral-300">
-              {isProtected
+              {isLifeline
+                ? language === 'urdu'
+                  ? 'آپ کے یونٹس 50 یا اس سے کم ہیں۔ وزارت توانائی کے ایس آر او 575 کے تحت آپ کو پاکستان کی سب سے سستی لائف لائن شرح (3.95 روپے فی یونٹ) مل رہی ہے جو غریب ترین گھرانوں کے لیے مخصوص ہے۔'
+                  : language === 'roman_urdu'
+                  ? 'Aap ke units 50 ya kam hain. SRO 575 ke tehat aap ko subsidized Lifeline rate (Rs. 3.95/unit) mil rahi hai jo sab se bari subsidy hai.'
+                  : 'Your consumption is 50 units or fewer. You qualify for the maximum subsidized Lifeline rate of Rs. 3.95/unit under SRO 575(I)/2024.'
+                : isProtected
                 ? language === 'urdu'
                   ? 'آپ کے یونٹس 200 یا اس سے کم ہیں۔ وزارت توانائی کے ایس آر او 575 کے تحت آپ کو سبسڈی والے پروٹیکٹڈ نرخ مل رہے ہیں۔ اس حیثیت کو برقرار رکھنے کے لیے اگلے 6 ماہ تک استعمال 200 سے کم رکھیں۔'
                   : language === 'roman_urdu'
                   ? 'Aap ke units 200 se kam hain. SRO 575 ke tehat aap ko sasti protected slabs mil rahi hain. Aglay 6 maheene 200 se kam rakh kar ye status barqarar rakhein.'
                   : 'Your consumption is under 200 units. You qualify for subsidized protected slabs under SRO 575(I)/2024. Keep monthly units <= 200 to retain this subsidized tier.'
                 : language === 'urdu'
-                ? '200 یونٹ سے زائد استعمال یا گزشتہ 6 ماہ میں حد عبور کرنے کی وجہ سے آپ کا بل غیر محفوظ سلیب پر بنا ہے۔'
+                ? '200 یونٹ سے زائد استعمال یا گزشتہ 6 ماہ میں حد عبور کرنے کی وجہ سے آپ کا بل غیر محفوظ سلیب پر بنا ہے جس میں ہر سلیب کا ریٹ بتدریج زیادہ ہے۔'
                 : language === 'roman_urdu'
                 ? '200 units se ooper hone ki wajah se aap Unprotected category mein hain jahan per-unit rate barh jata hai.'
                 : 'Your bill is calculated on progressive Unprotected slabs. Exceeding 200 units triggers higher baseline tariffs across all units.'}

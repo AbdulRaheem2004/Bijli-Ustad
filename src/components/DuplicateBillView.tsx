@@ -16,14 +16,14 @@ interface DuplicateBillViewProps {
   selectedDisco: string;
   onSelectDisco: (discoId: string) => void;
   language: 'english' | 'roman_urdu' | 'urdu';
-  onLoadIntoEstimator: (units: number, refNo: string) => void;
+  onLoadIntoExplainer: (units: number, refNo: string) => void;
 }
 
 export const DuplicateBillView: React.FC<DuplicateBillViewProps> = ({
   selectedDisco,
   onSelectDisco,
   language,
-  onLoadIntoEstimator,
+  onLoadIntoExplainer,
 }) => {
   const [referenceNumber, setReferenceNumber] = useState<string>('08112345678901');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -138,10 +138,10 @@ export const DuplicateBillView: React.FC<DuplicateBillViewProps> = ({
               </button>
 
               <button
-                onClick={() => onLoadIntoEstimator(billData.unitsConsumed, billData.referenceNumber)}
+                onClick={() => onLoadIntoExplainer(billData.unitsConsumed, billData.referenceNumber)}
                 className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors"
               >
-                <span>Explain in Estimator</span>
+                <span>{language === 'urdu' ? 'بل ایکسپلینر میں کھولیں' : 'Explain in Bill Explainer'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
 

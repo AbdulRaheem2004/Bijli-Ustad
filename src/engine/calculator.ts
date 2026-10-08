@@ -72,14 +72,18 @@ export function calculateBill(input: BillInput): BillCalculationResult {
       notes.push('Protected consumer status active (<= 200 units consecutive 6 months).');
     } else {
       // Exceeded 200 units -> automatically falls back to Unprotected calculation!
-      exceededProtectedThreshold = true;
-      notes.push(
-        'Exceeded 200 units threshold! Automatically calculated under Unprotected Slabs per Ministry SRO 575.'
-      );
-      return calculateBill({
+      const fallbackResult = calculateBill({
         ...input,
         connectionType: 'domestic_single_phase_unprotected',
       });
+      return {
+        ...fallbackResult,
+        exceededProtectedThreshold: true,
+        notes: [
+          'Exceeded 200 units threshold! Automatically calculated under Unprotected Slabs per Ministry SRO 575.',
+          ...fallbackResult.notes,
+        ],
+      };
     }
   }
 

@@ -36,11 +36,13 @@ export const Header: React.FC<HeaderProps> = ({
                 title="Click to inspect Gazette SROs and NEPRA legal determinations"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                NEPRA SRO Verified
+                {language === 'urdu' ? 'نیپرا ایس آر او سے تصدیق شدہ' : 'NEPRA SRO Verified'}
               </button>
             </div>
             <p className="text-xs text-neutral-400 hidden sm:block">
-              Bill Explainer, Duplicate Bill Portal & Grounded RAG
+              {language === 'urdu'
+                ? 'بجلی بل ایکسپلینر، ڈپلیکیٹ بل پورٹل اور نیپرا چیٹ'
+                : 'Bill Explainer, Duplicate Bill Portal & Grounded RAG'}
             </p>
           </div>
         </div>

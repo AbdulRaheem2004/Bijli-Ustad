@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   Printer, 
@@ -38,6 +38,11 @@ export const App: React.FC = () => {
   };
 
   const isRtl = language === 'urdu';
+
+  useEffect(() => {
+    document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+    document.documentElement.lang = isRtl ? 'ur' : (language === 'roman_urdu' ? 'ur-Latn' : 'en');
+  }, [isRtl, language]);
 
   return (
     <div className={`min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans ${isRtl ? 'font-nastaliq' : ''}`}>
@@ -126,14 +131,14 @@ export const App: React.FC = () => {
               selectedDisco={selectedDisco}
               onSelectDisco={setSelectedDisco}
               language={language}
-              onLoadIntoEstimator={handleLoadIntoExplainer}
+              onLoadIntoExplainer={handleLoadIntoExplainer}
             />
           )}
 
           {activeTab === 'upload_parse' && (
             <UploadBillView
               language={language}
-              onLoadIntoEstimator={handleLoadIntoExplainer}
+              onLoadIntoExplainer={handleLoadIntoExplainer}
             />
           )}
 

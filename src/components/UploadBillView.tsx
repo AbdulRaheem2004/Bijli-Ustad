@@ -4,12 +4,12 @@ import { BillParserService, type ParsedBillFields } from '../services/billParser
 
 interface UploadBillViewProps {
   language: 'english' | 'roman_urdu' | 'urdu';
-  onLoadIntoEstimator: (units: number, refNo: string) => void;
+  onLoadIntoExplainer: (units: number, refNo: string) => void;
 }
 
 export const UploadBillView: React.FC<UploadBillViewProps> = ({
   language,
-  onLoadIntoEstimator,
+  onLoadIntoExplainer,
 }) => {
   const [pastedText, setPastedText] = useState<string>('');
   const [parsedFields, setParsedFields] = useState<ParsedBillFields | null>(null);
@@ -102,14 +102,14 @@ Due Date: 20-OCT-2024
               <button
                 type="button"
                 onClick={() =>
-                  onLoadIntoEstimator(
+                  onLoadIntoExplainer(
                     parsedFields.units || 180,
                     parsedFields.referenceNumber || ''
                   )
                 }
                 className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs flex items-center gap-1.5 transition-colors"
               >
-                <span>Load {parsedFields.units} Units into Estimator</span>
+                <span>{language === 'urdu' ? `بل ایکسپلینر میں لوڈ کریں (${parsedFields.units} یونٹ)` : `Load ${parsedFields.units} Units into Explainer`}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             )}
