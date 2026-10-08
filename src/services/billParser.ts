@@ -3,6 +3,10 @@ export interface ParsedBillFields {
   units?: number;
   tariffCode?: string;
   amountPayable?: number;
+  isCreditBalance?: boolean;
+  category?: string;
+  isNetMetering?: boolean;
+  sanctionedLoad?: number;
   fpa?: number;
   discoId?: string;
   consumerName?: string;
@@ -24,13 +28,40 @@ export class BillParserService {
     const unitsMatch = clean.match(/(?:UNITS|Units\s+Consumed|Consumed\s+Units|Total\s+Units|Units|MTR\s+UNITS)[:\s]+(\d{1,5})\b/i);
     const units = unitsMatch ? parseInt(unitsMatch[1], 10) : undefined;
 
-    // Extract tariff code (e.g. A-1a(01), A-1a, A-1b, A-1, A-2, B-1, B-2)
-    const tariffMatch = clean.match(/(A-1[a-zA-Z]?(?:\(\d+\))?|A-2|B-1|B-2)/i);
+    // Extract tariff code (e.g. A-1b(03)T, A-1a(01), A-1a, A-1b, A-1, A-2, B-1, B-2)
+    const tariffMatch = clean.match(/(A-1[a-zA-Z0-9]?(?:\([0-9a-zA-Z]+\))?[a-zA-Z]?|A-2|B-1|B-2)/i);
     const tariffCode = tariffMatch ? tariffMatch[1].toUpperCase() : undefined;
 
-    // Extract amount payable within due date
-    const payableMatch = clean.match(/(?:Payable\s+Within\s+Due\s+Date|Within\s+Due\s+Date|Current\s+Bill|TOTAL\s+AMOUNT|Net\s+Payable)[:\s]+(?:Rs\.?\s*)?([\d,]+)/i);
-    const amountPayable = payableMatch ? parseFloat(payableMatch[1].replace(/,/g, '')) : undefined;
+    // Extract Category & Net Metering status
+    let category: string | undefined = undefined;
+    let isNetMetering = false;
+    if (/Net\s*Metering/i.test(clean) || (tariffCode && /A-1B\(03\)T/i.test(tariffCode))) {
+      category = 'Net Metering';
+      isNetMetering = true;
+    } else if (/Unprotected/i.test(clean)) {
+      category = 'Unprotected';
+    } else if (/Protected/i.test(clean)) {
+      category = 'Protected';
+    }
+
+    // Extract Sanctioned Load (e.g. SAN LOAD: 5 or SAN LOAD 2)
+    const sanMatch = clean.match(/SAN\s*LOAD[:\s]+(\d+)/i);
+    const sanctionedLoad = sanMatch ? parseInt(sanMatch[1], 10) : undefined;
+
+    // Extract amount payable within due date & detect CR (Credit Balance / NOT TO BE PAID)
+    const payableMatch = clean.match(/(?:Payable\s+Within\s+Due\s+Date|Within\s+Due\s+Date|Current\s+Bill|TOTAL\s+AMOUNT|Net\s+Payable|Grand\s+Total)[:\s]+(?:Rs\.?\s*)?(-?[\d,]+)\s*(CR)?/i);
+    let amountPayable: number | undefined = undefined;
+    let isCreditBalance = false;
+
+    if (payableMatch) {
+      const val = parseFloat(payableMatch[1].replace(/,/g, ''));
+      if (payableMatch[2] === 'CR' || val < 0 || /NOT\s+TO\s+BE\s+PAID/i.test(clean)) {
+        isCreditBalance = true;
+        amountPayable = -Math.abs(val);
+      } else {
+        amountPayable = val;
+      }
+    }
 
     // Extract FPA
     const fpaMatch = clean.match(/(?:F\.?P\.?A|Fuel\s+Adjustment|Fuel\s+Price)[:\s]+(?:Rs\.?\s*)?([\d,.]+)/i);
@@ -54,6 +85,10 @@ export class BillParserService {
       units,
       tariffCode,
       amountPayable,
+      isCreditBalance,
+      category,
+      isNetMetering,
+      sanctionedLoad,
       fpa,
       discoId,
       rawTextPreview: clean.substring(0, 300).trim(),

@@ -122,3 +122,64 @@ test('Customer Chat: Answers why consumer has to pay with solar power (5 reasons
   assert.ok(response.citations && response.citations.length > 0);
 });
 
+test('Customer Chat: Answers connection type and solar meter questions using bill context', () => {
+  const chat = new CustomerRagChatService();
+  const solarBill = {
+    discoId: 'mepco',
+    discoName: 'MEPCO',
+    connectionType: 'solar_net_metering' as const,
+    totalUnits: 273,
+    baseElectricityCost: 6500,
+    slabs: [],
+    taxes: {
+      fcSurcharge: 881,
+      fpa: 471,
+      qta: 341,
+      electricityDuty: 97,
+      gst: 875,
+      tvFee: 35,
+      totalTaxesAndSurcharges: 2700,
+    },
+    netPayableWithinDueDate: -59369,
+    isProtectedEligible: false,
+  };
+
+  const response = chat.answer('what type of connection is my?', solarBill, 'english');
+  assert.equal(response.isOutOfScope, false);
+  assert.ok(response.text.includes('Solar Net-Metering') || response.text.includes('A-1b(03)T'));
+
+  const responseSolar = chat.answer('is my meter solar or not?', solarBill, 'roman_urdu');
+  assert.equal(responseSolar.isOutOfScope, false);
+  assert.ok(responseSolar.text.includes('Solar Net-Metering'));
+});
+
+test('Customer Chat: Correctly explains Credit Balance (CR) when user asks why to pay with credit', () => {
+  const chat = new CustomerRagChatService();
+  const creditBill = {
+    discoId: 'mepco',
+    discoName: 'MEPCO',
+    connectionType: 'solar_net_metering' as const,
+    totalUnits: 273,
+    baseElectricityCost: 6500,
+    slabs: [],
+    taxes: {
+      fcSurcharge: 881,
+      fpa: 471,
+      qta: 341,
+      electricityDuty: 97,
+      gst: 875,
+      tvFee: 35,
+      totalTaxesAndSurcharges: 2700,
+    },
+    netPayableWithinDueDate: -59369,
+    isProtectedEligible: false,
+  };
+
+  const response = chat.answer('why do i have to pay? aint my amount credited to mepco?', creditBill, 'english');
+  assert.equal(response.isOutOfScope, false);
+  assert.ok(response.text.includes('NOT have to pay'));
+  assert.ok(response.text.includes('59,369') || response.text.includes('CREDIT'));
+  assert.ok(response.text.includes('NOT TO BE PAID'));
+});
+
+

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UploadCloud, CheckCircle2, ArrowRight, Shield, FileUp, Loader2 } from 'lucide-react';
+import { UploadCloud, CheckCircle2, ArrowRight, FileUp, Loader2 } from 'lucide-react';
 import { BillParserService, type ParsedBillFields } from '../services/billParser.ts';
 
 interface UploadBillViewProps {
@@ -69,21 +69,16 @@ Due Date: 20-OCT-2024
               <span>
                 {language === 'urdu'
                   ? 'پی ڈی ایف بل اپ لوڈ / لوکل پارسر'
-                  : 'PDF Bill Upload & Local Parser (Zero Server Storage)'}
+                  : 'PDF Bill Upload & In-Browser Parser'}
               </span>
             </h2>
             <p className="text-xs text-neutral-400 mt-1">
               {language === 'urdu'
-                ? 'اپنے ڈیجیٹل ڈپلیکیٹ بل کی پی ڈی ایف فائل اپ لوڈ کریں یا ٹیکسٹ پیسٹ کریں۔ آپ کا ڈیٹا آپ کے موبائل یا براؤزر میں ہی رہتا ہے۔'
+                ? 'اپنے ڈیجیٹل ڈپلیکیٹ بل کی پی ڈی ایف فائل اپ لوڈ کریں یا ٹیکسٹ پیسٹ کریں۔'
                 : language === 'roman_urdu'
-                ? 'Apne bill ki PDF upload karein ya text paste karein. Hamara parser foran units aur reference number extract kar lega bina kisi server par data bhejay.'
-                : 'Upload your digital duplicate bill PDF or paste bill text. Our in-browser parser extracts units and reference number directly on your device with 100% privacy.'}
+                ? 'Apne bill ki PDF upload karein ya text paste karein. Hamara parser foran units aur reference number extract kar lega.'
+                : 'Upload your digital duplicate bill PDF or paste bill text to automatically extract units, tariff, and reference number.'}
             </p>
-          </div>
-
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-[11px] text-emerald-300 font-medium whitespace-nowrap">
-            <Shield className="w-3.5 h-3.5" />
-            <span>{language === 'urdu' ? '100% کلائنٹ سائڈ پرائیویسی' : '100% Client-Side Privacy'}</span>
           </div>
         </div>
 

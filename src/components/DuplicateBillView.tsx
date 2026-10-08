@@ -45,8 +45,10 @@ export const DuplicateBillView: React.FC<DuplicateBillViewProps> = ({
     }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrintOriginalBill = () => {
+    if (billData?.officialDuplicateUrl) {
+      window.open(billData.officialDuplicateUrl, '_blank');
+    }
   };
 
   return (
@@ -122,24 +124,26 @@ export const DuplicateBillView: React.FC<DuplicateBillViewProps> = ({
 
             <div className="flex items-center gap-2">
               <button
-                onClick={handlePrint}
-                className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
+                onClick={handlePrintOriginalBill}
+                className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+                title="Opens the original government duplicate bill with barcode, meter photo, and bank stamps for printing"
               >
                 <Printer className="w-3.5 h-3.5" />
-                <span>Print Bill</span>
+                <span>{language === 'urdu' ? 'اصل بل پرنٹ کریں' : 'Print Original Bill'}</span>
               </button>
 
               <button
-                onClick={handlePrint}
+                onClick={handlePrintOriginalBill}
                 className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
+                title="Download or save original DISCO copy as PDF"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Save as PDF</span>
+                <span>Save Original PDF</span>
               </button>
 
               <button
                 onClick={() => onLoadIntoExplainer(billData.unitsConsumed, billData.referenceNumber)}
-                className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-medium flex items-center gap-1.5 transition-colors"
               >
                 <span>{language === 'urdu' ? 'بل ایکسپلینر میں کھولیں' : 'Explain in Bill Explainer'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -150,7 +154,7 @@ export const DuplicateBillView: React.FC<DuplicateBillViewProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg bg-neutral-800 text-neutral-400 hover:text-neutral-200 transition-colors"
-                title="Open Direct DISCO Portal"
+                title="Open Direct Official Portal"
               >
                 <ExternalLink className="w-4 h-4" />
               </a>
@@ -252,7 +256,7 @@ export const DuplicateBillView: React.FC<DuplicateBillViewProps> = ({
             {/* Bill Footer Notice */}
             <div className="text-[10px] text-neutral-500 pt-2 border-t border-neutral-800 flex justify-between items-center">
               <span>Verified against official DISCO billing schedule.</span>
-              <span>100% Client-Side Privacy — Zero Data Retention.</span>
+              <span>Official PITC duplicate billing records.</span>
             </div>
           </div>
         </div>

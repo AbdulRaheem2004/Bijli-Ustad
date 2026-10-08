@@ -4,8 +4,7 @@ import {
   Printer, 
   UploadCloud, 
   MessageSquare, 
-  ShieldCheck, 
-  Lock
+  ShieldCheck
 } from 'lucide-react';
 import { Header } from './components/Header.tsx';
 import { BillExplainerView } from './components/BillExplainerView.tsx';
@@ -162,10 +161,6 @@ export const App: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4 text-neutral-400">
-            <span className="flex items-center gap-1">
-              <Lock className="w-3.5 h-3.5 text-emerald-400" />
-              100% Client-Side Privacy (Zero Server Storage)
-            </span>
             <button
               onClick={() => setIsSroModalOpen(true)}
               className="text-emerald-400 hover:underline"
