@@ -43,6 +43,15 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Print view optimization */
 @media print {
   body {
