@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.join(__dirname, 'dist');
-const port = process.env.PORT || 5173;
+const port = process.env.PORT || 5171;
 
 const MIME_TYPES = {
   '.html': 'text/html',
