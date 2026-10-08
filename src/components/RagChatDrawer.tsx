@@ -34,28 +34,31 @@ export const RagChatDrawer: React.FC<RagChatDrawerProps> = ({
   const getQuickPrompts = (lang: 'english' | 'roman_urdu' | 'urdu') => {
     if (lang === 'urdu') {
       return [
-        { label: 'فیول پرائس ایڈجسٹمنٹ (FPA) کیا ہے؟', query: 'فیول پرائس ایڈجسٹمنٹ FPA کیا ہے اور یہ کیسے لگتی ہے؟' },
-        { label: '200 یونٹ سے اوپر بل کیوں بڑھتا ہے؟', query: '200 یونٹ سے اوپر پروٹیکٹڈ کیٹیگری کا کیا اصول ہے؟' },
+        { label: '💡 ایک یونٹ کتنے کا پڑتا ہے؟', query: 'میرا ایک یونٹ کتنے کا پڑ رہا ہے؟ بغیر ٹیکس اور تمام ٹیکسز کے ساتھ بتائیں' },
+        { label: '☀️ سولر پر بل کیوں آتا ہے؟', query: 'سولر پینل ہونے کے باوجود بجلی کا بل کیوں آتا ہے؟' },
+        { label: 'فیول پرائس ایڈجسٹمنٹ (FPA)؟', query: 'فیول پرائس ایڈجسٹمنٹ FPA کیا ہے اور یہ کیسے لگتی ہے؟' },
+        { label: '200 یونٹ سے اوپر بل؟', query: '200 یونٹ سے اوپر پروٹیکٹڈ کیٹیگری کا کیا اصول ہے؟' },
         { label: 'ڈٹیکشن بل کے قواعد؟', query: 'سلو میٹر اور ڈٹیکشن بل سے متعلق نیپرا کے قوانین کیا ہیں؟' },
         { label: 'سولر نیٹ میٹرنگ رول اوور؟', query: 'سولر نیٹ میٹرنگ میں ایکسپورٹ یونٹس کا کریڈٹ کیسے بنتا ہے؟' },
-        { label: 'اے سی سے بجلی کیسے بچائیں؟', query: 'انورٹر اے سی 26 ڈگری پر کتنے یونٹس لیتا ہے؟' },
       ];
     }
     if (lang === 'roman_urdu') {
       return [
+        { label: '💡 1 unit kitne ka par raha hai?', query: 'How much does it cost me for a unit without taxes and with total bill?' },
+        { label: '☀️ Solar hone par bill kyun?', query: 'Why do I have to pay if I already own solar power?' },
         { label: 'FPA kya hota hai?', query: 'What is FPA on electricity bill and how is it calculated?' },
         { label: '200 units se ooper mehnga bill?', query: 'Why did my bill jump above 200 units protected category?' },
         { label: 'Detection bill ke rules?', query: 'What are NEPRA CSM rules regarding slow meters and detection bills?' },
         { label: 'Solar net-metering settlement?', query: 'How does solar net-metering export credit and quarterly rollover work?' },
-        { label: 'AC se bijli kaise bachayein?', query: 'How many units does an inverter AC use at 26 degrees?' },
       ];
     }
     return [
+      { label: '💡 How much for 1 unit?', query: 'How much does it cost me for a unit? Calculate without taxes and with total bill.' },
+      { label: '☀️ Why pay with Solar?', query: 'Why do I have to pay if I already own solar power?' },
       { label: 'What is FPA?', query: 'What is Fuel Price Adjustment and how is it calculated?' },
       { label: '200-Unit Protected Rule', query: 'Why does a bill jump when exceeding 200 units?' },
       { label: 'Detection Bill Rules', query: 'What are NEPRA Consumer Service Manual rules on slow meter detection bills?' },
       { label: 'Solar Net-Metering', query: 'How does solar net-metering export credit rollover work?' },
-      { label: 'AC Power Saving', query: 'How many units does an inverter AC consume at 26 degrees?' },
     ];
   };
 

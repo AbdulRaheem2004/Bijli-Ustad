@@ -3,22 +3,114 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bijli Ustad — Pakistan NEPRA Bill Explainer, Portal & Grounded RAG</title>
-    <meta name="description" content="Understand and explain your Pakistani electricity bill with exact NEPRA SRO ground truth, duplicate bill fetching, and local in-browser RAG assistant." />
-    
-    <!-- Open Graph for WhatsApp, Facebook, X -->
-    <meta property="og:title" content="Bijli Ustad (Pakistan)" />
-    <meta property="og:description" content="Explain electricity bills with official NEPRA SROs. Fetch duplicate bills, analyze slabs, and chat with local grounded RAG." />
+    <title>Bijli Ustad — Pakistan NEPRA Electricity Bill Explainer, Duplicate Bill & SRO Guide</title>
+    <meta name="description" content="Calculate and explain your Pakistani electricity bill (LESCO, K-Electric, MEPCO, IESCO). Real per-unit cost analysis (without taxes vs total bill), solar net-metering rules, protected vs unprotected slabs, FPA, and NEPRA SRO ground truth." />
+    <meta name="keywords" content="bijli bill, electricity bill pakistan, lesco duplicate bill, k electric bill check, mepco bill online, iesco bill check, fesco bill, nepra tariff slabs, cost per unit electricity, 1 unit price pakistan, protected consumer 200 units, solar net metering bill pakistan, fpa fuel price adjustment, بجلی کا بل، لیسکو بل، نیپرا ریٹس" />
+    <meta name="author" content="Bijli Ustad" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#10b981" />
+    <link rel="canonical" href="https://abdulraheem2004.github.io/Bijli-Ustad/" />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://abdulraheem2004.github.io/Bijli-Ustad/" />
+    <meta property="og:title" content="Bijli Ustad — Pakistani Electricity Bill Explainer & NEPRA Guide" />
+    <meta property="og:description" content="Understand your electricity bill line-by-line. Calculate 1-unit cost without taxes vs total bill, solar net-metering bills, slab jumps, and fetch official duplicate bills." />
+    <meta property="og:site_name" content="Bijli Ustad" />
+    <meta property="og:locale" content="en_PK" />
+    <meta property="og:locale:alternate" content="ur_PK" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bijli Ustad — Pakistani Electricity Bill Explainer & NEPRA Guide" />
+    <meta name="twitter:description" content="Calculate 1-unit real cost, solar net-metering bill reasons, and official duplicate bills grounded in NEPRA SROs." />
+
+    <!-- PWA Manifest & Favicon -->
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
 
     <!-- Google Fonts: Inter & Noto Nastaliq Urdu -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Favicon (SVG lightning bolt) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg>" />
+    <!-- Schema.org JSON-LD Structured Data: WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Bijli Ustad",
+      "url": "https://abdulraheem2004.github.io/Bijli-Ustad/",
+      "description": "Pakistani electricity bill explainer, duplicate bill portal, and local in-browser RAG assistant grounded in NEPRA Gazette SROs.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PKR"
+      },
+      "featureList": [
+        "NEPRA SRO Bill Explainer",
+        "Dual-Metric Per-Unit Cost Analysis (Base Rate vs All-Inclusive)",
+        "Solar Net-Metering Bill Explanation",
+        "Client-Side PDF Bill Parser",
+        "Official DISCO Duplicate Bill Fetcher (LESCO, IESCO, MEPCO, K-Electric, FESCO, GEPCO, PESCO, HESCO, SEPCO, QESCO)",
+        "Local In-Browser RAG Regulatory Chatbot"
+      ]
+    }
+    </script>
+
+    <!-- Schema.org JSON-LD Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does one unit of electricity cost in Pakistan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Pakistan, electricity per-unit cost is calculated in two distinct ways: 1) Without Taxes (Base Price): Base electricity cost divided by total units, reflecting your pure NEPRA slab tariff under SRO 575(I)/2024. 2) All-Inclusive Effective Rate: Total bill payable divided by total units consumed. Because Pakistani bills include 18% GST, 1.5% Electricity Duty, Rs. 3.23/unit Financing Cost Surcharge, Fuel Price Adjustment (FPA), and Quarterly Tariff Adjustment (QTA), government taxes add a 35% to 55% overhead on top of the base slab cost."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do I still get an electricity bill even though I have solar net-metering?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under NEPRA Net-Metering Regulations (SRO 892(I)/2015), solar owners receive a bill for 5 statutory reasons: 1) Peak Hours Exclusion: Solar generates only during daylight (Off-Peak); evening Peak hours (5 PM - 11 PM) cannot be offset by daytime export units and are billed at full peak rates (~Rs. 41.89/kWh). 2) Fixed charges on sanctioned load (kW). 3) Mandatory non-offsettable fees (PTV fee Rs. 35, Electricity Duty). 4) High nighttime or winter import exceeding solar export. 5) Surplus units are settled at the end of each quarter at the national buyback rate (Rs. 22/unit)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a Protected electricity consumer in Pakistan (200 Units Rule)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under Ministry of Energy notification SRO 575(I)/2024, residential consumers qualify as Protected only if monthly electricity consumption has remained 200 units or less for 6 consecutive months. Exceeding 200 units in even one month triggers higher Unprotected progressive slabs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Fuel Price Adjustment (FPA) on Pakistani electricity bills?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fuel Price Adjustment (FPA) is a monthly statutory surcharge governed by Section 31(7) of the NEPRA Act. It represents the variance between reference fuel costs set in the annual base tariff and actual fuel expenditures incurred by CPPA-G to generate electricity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I download a duplicate electricity bill online in Pakistan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bijli Ustad provides direct 1-click duplicate bill fetching for all Pakistani DISCOs (LESCO, K-Electric, MEPCO, IESCO, FESCO, GEPCO, PESCO, HESCO, SEPCO, QESCO) using your 14-digit reference number or 13-digit account number directly from official utility servers."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
     <div id="root"></div>

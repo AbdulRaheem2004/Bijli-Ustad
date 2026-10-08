@@ -4,7 +4,9 @@ import {
   ShieldCheck, 
   AlertTriangle, 
   CheckCircle2, 
-  ChevronRight
+  ChevronRight,
+  Coins,
+  Scale
 } from 'lucide-react';
 import type { ConnectionType, BillCalculationResult } from '../engine/types.ts';
 import { calculateBill } from '../engine/calculator.ts';
@@ -47,6 +49,11 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
     (bill.baseElectricityCost / (bill.netPayableWithinDueDate || 1)) * 100
   );
   const taxesPercent = Math.max(0, 100 - electricityPercent);
+
+  const baseRatePerUnit = bill.totalUnits > 0 ? bill.baseElectricityCost / bill.totalUnits : 0;
+  const effectiveRatePerUnit = bill.totalUnits > 0 ? bill.netPayableWithinDueDate / bill.totalUnits : 0;
+  const taxMarkupPerUnit = bill.totalUnits > 0 ? bill.taxes.totalTaxesAndSurcharges / bill.totalUnits : 0;
+  const taxMarkupPercent = baseRatePerUnit > 0 ? Math.round((taxMarkupPerUnit / baseRatePerUnit) * 100) : 0;
 
   return (
     <div className={`space-y-6 ${isRtl ? 'font-nastaliq text-right' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
@@ -266,6 +273,85 @@ export const BillExplainerView: React.FC<BillExplainerViewProps> = ({
                 <div className="text-xs text-neutral-400 font-mono">
                   {bill.totalUnits} Units
                 </div>
+              </div>
+            </div>
+
+            {/* 2-Part Per-Unit Cost Breakdown Card */}
+            <div className="p-4 rounded-xl bg-neutral-950 border border-emerald-500/40 space-y-3.5 shadow-inner">
+              <div className="flex items-center justify-between border-b border-neutral-800 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                    <Coins className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-neutral-100 flex items-center gap-1.5">
+                      <span>{language === 'urdu' ? 'فی یونٹ لاگت کا ۲ رخی تجزیہ' : 'Per-Unit Cost Analysis (2 Ways)'}</span>
+                    </h4>
+                    <p className="text-[10px] text-neutral-400">
+                      {language === 'urdu'
+                        ? 'بغیر ٹیکسز (بنیادی ریٹ) بمقابلہ تمام ٹیکسز کے ساتھ (حقیقی خرچ)'
+                        : 'Without Taxes (Base Generation) vs. All-Inclusive (Total Bill / Units)'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-neutral-900 px-2 py-0.5 rounded border border-neutral-800">
+                  <Scale className="w-3 h-3 text-neutral-400" />
+                  <span>{bill.totalUnits} Units</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* 1) Without Taxes: Base Electricity Cost / Total Units */}
+                <div className="p-3.5 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-emerald-500/30 transition-colors">
+                  <div className="text-[10px] text-neutral-400 uppercase font-semibold">
+                    {language === 'urdu' ? '۱. بغیر ٹیکسز (بنیادی ریٹ):' : '1. Without Taxes (Base Price):'}
+                  </div>
+                  <div className="text-xl font-black font-mono text-emerald-400 mt-1 tabular-nums">
+                    Rs. {baseRatePerUnit.toFixed(2)}
+                    <span className="text-xs text-neutral-400 font-normal ml-1">/ unit</span>
+                  </div>
+                  <div className="text-[10px] text-neutral-400 mt-1.5 leading-snug">
+                    {language === 'urdu'
+                      ? `بنیادی بجلی: ${bill.baseElectricityCost.toLocaleString()} روپے ÷ ${bill.totalUnits} یونٹس`
+                      : `Base Power (Rs. ${bill.baseElectricityCost.toLocaleString()}) ÷ ${bill.totalUnits} units`}
+                  </div>
+                  <div className="text-[9px] text-neutral-500 mt-0.5">
+                    {language === 'urdu'
+                      ? 'صرف سلیب کے مطابق بجلی کا ریٹ'
+                      : 'Pure slab rate before government levies'}
+                  </div>
+                </div>
+
+                {/* 2) Total Bill (Including all taxes) / Total Units */}
+                <div className="p-3.5 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-amber-500/30 transition-colors">
+                  <div className="text-[10px] text-amber-400 uppercase font-semibold">
+                    {language === 'urdu' ? '۲. تمام ٹیکسز کے ساتھ (کل بل ÷ یونٹس):' : '2. All-Inclusive (Total Bill ÷ Units):'}
+                  </div>
+                  <div className="text-xl font-black font-mono text-amber-400 mt-1 tabular-nums">
+                    Rs. {effectiveRatePerUnit.toFixed(2)}
+                    <span className="text-xs text-neutral-400 font-normal ml-1">/ unit</span>
+                  </div>
+                  <div className="text-[10px] text-neutral-400 mt-1.5 leading-snug">
+                    {language === 'urdu'
+                      ? `کل واجب الادا بل: ${bill.netPayableWithinDueDate.toLocaleString()} روپے ÷ ${bill.totalUnits} یونٹس`
+                      : `Total Bill (Rs. ${bill.netPayableWithinDueDate.toLocaleString()}) ÷ ${bill.totalUnits} units`}
+                  </div>
+                  <div className="text-[9px] text-amber-500/80 mt-0.5">
+                    {language === 'urdu'
+                      ? 'حقیقی رقم جو آپ ہر یونٹ پر جیب سے ادا کرتے ہیں'
+                      : 'Actual effective out-of-pocket cost per unit'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Tax & Surcharge Overhead Indicator */}
+              <div className="p-2.5 rounded-lg bg-neutral-900/70 border border-neutral-800 flex items-center justify-between text-[11px] text-neutral-300">
+                <span className="text-neutral-400">
+                  {language === 'urdu' ? 'حکومتی ٹیکسز و سرچارجز کا فی یونٹ اضافہ:' : 'Govt Taxes & Surcharge Overhead:'}
+                </span>
+                <span className="font-mono font-bold text-amber-400">
+                  +Rs. {taxMarkupPerUnit.toFixed(2)} / unit (+{taxMarkupPercent}%)
+                </span>
               </div>
             </div>
 

@@ -75,3 +75,50 @@ test('Customer Chat: Returns authentic Roman Urdu for valid query', () => {
   assert.ok(response.text.includes('SRO 575'));
   assert.ok(response.text.includes('Protected'));
 });
+
+test('Customer Chat: Dynamically calculates 2-part unit cost (base price vs total bill / units)', () => {
+  const chat = new CustomerRagChatService();
+  const mockBill = {
+    discoId: 'lesco',
+    discoName: 'LESCO',
+    connectionType: 'domestic_single_phase_protected' as const,
+    totalUnits: 100,
+    baseElectricityCost: 774,
+    slabs: [{ name: '1 - 100 Units', units: 100, rate: 7.74, cost: 774 }],
+    taxes: {
+      fcSurcharge: 323,
+      fpa: 174,
+      qta: 125,
+      electricityDuty: 11.61,
+      gst: 253.25,
+      tvFee: 35,
+      totalTaxesAndSurcharges: 921.86,
+    },
+    netPayableWithinDueDate: 1695.86,
+    isProtectedEligible: true,
+  };
+
+  const response = chat.answer('How much does it cost me for a unit?', mockBill, 'english');
+
+  assert.equal(response.sender, 'assistant');
+  assert.equal(response.isOutOfScope, false);
+  // Part 1: Without taxes
+  assert.ok(response.text.includes('WITHOUT TAXES'));
+  assert.ok(response.text.includes('7.74'));
+  // Part 2: Total bill including all taxes / total units
+  assert.ok(response.text.includes('TOTAL BILL INCLUDING ALL TAXES'));
+  assert.ok(response.text.includes('16.96'));
+  assert.ok(response.citations && response.citations.length > 0);
+});
+
+test('Customer Chat: Answers why consumer has to pay with solar power (5 reasons)', () => {
+  const chat = new CustomerRagChatService();
+  const response = chat.answer('Why do I have to pay if I already own solar power?', null, 'english');
+
+  assert.equal(response.sender, 'assistant');
+  assert.equal(response.isOutOfScope, false);
+  assert.ok(response.text.includes('Peak Hours'));
+  assert.ok(response.text.includes('Sanctioned Load') || response.text.includes('Fixed Charges'));
+  assert.ok(response.citations && response.citations.length > 0);
+});
+

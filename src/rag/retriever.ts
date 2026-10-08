@@ -32,6 +32,7 @@ export class NepraRagRetriever {
   private tokenize(text: string): string[] {
     return text
       .toLowerCase()
+      .replace(/[؟؛،۔٪!?,.:;"'()\[\]{}–—\/\\]/g, ' ')
       .replace(/[^a-z0-9\u0600-\u06FF\s]/g, ' ')
       .split(/\s+/)
       .filter((term) => term.length > 1 && !STOP_WORDS.has(term));
