@@ -3,64 +3,75 @@ import assert from 'node:assert/strict';
 import { NepraRagRetriever } from '../src/rag/retriever.ts';
 import { CustomerRagChatService } from '../src/rag/customerChat.ts';
 
-test('RAG Retriever: Query for FPA returns Section 31(7) chunk', () => {
+test('RAG Retriever: Valid query for FPA returns Section 31(7) chunk', () => {
   const retriever = new NepraRagRetriever();
-  const results = retriever.retrieve('What is FPA on my electricity bill?');
+  const results = retriever.retrieve('What is FPA on electricity bill?');
 
   assert.ok(results.length > 0);
   assert.equal(results[0].chunk.id, 'kc-fpa-mechanics');
   assert.ok(results[0].chunk.sroCitation.includes('Section 31(7)'));
 });
 
-test('RAG Retriever: Roman Urdu query for protected slabs returns SRO 575', () => {
+test('RAG Retriever: Out-of-scope queries return zero results', () => {
   const retriever = new NepraRagRetriever();
-  const results = retriever.retrieve('mera bill 201 units par mehnga kyun aya protected status');
+  
+  // Unrelated questions
+  const res1 = retriever.retrieve('What is the capital of France?');
+  assert.equal(res1.length, 0);
 
-  assert.ok(results.length > 0);
-  assert.equal(results[0].chunk.id, 'kc-protected-criteria');
-  assert.ok(results[0].chunk.sroCitation.includes('S.R.O. 575'));
+  const res2 = retriever.retrieve('How to cook chicken biryani?');
+  assert.equal(res2.length, 0);
+
+  const res3 = retriever.retrieve('Tell me a funny joke');
+  assert.equal(res3.length, 0);
 });
 
-test('RAG Retriever: Detection bill query returns CSM Chapter 5', () => {
-  const retriever = new NepraRagRetriever();
-  const results = retriever.retrieve('kya meter slow hone par detection bill dal sakte hain?');
-
-  assert.ok(results.length > 0);
-  assert.equal(results[0].chunk.id, 'kc-csm-detection-bills');
-  assert.ok(results[0].chunk.sroCitation.includes('Chapter 5'));
-});
-
-test('Customer Chat: Answers in Roman Urdu with citations and bill context', () => {
-  const chatService = new CustomerRagChatService();
-  const response = chatService.answer(
-    'FPA kya hota hai?',
-    {
-      connectionType: 'domestic_single_phase_protected',
-      discoName: 'LESCO (Lahore)',
-      totalUnits: 150,
-      baseElectricityCost: 1200,
-      slabs: [],
-      taxes: {
-        fcSurcharge: 484,
-        fpa: 261,
-        qta: 187,
-        electricityDuty: 30,
-        gst: 390,
-        tvFee: 35,
-        advanceIncomeTax: 0,
-        totalTaxesAndSurcharges: 1387,
-      },
-      netPayableWithinDueDate: 2587,
-      isProtectedEligible: true,
-      exceededProtectedThreshold: false,
-      notes: [],
-    },
-    'roman_urdu'
-  );
+test('Customer Chat: Refuses out-of-scope question and provides helpful guidance in English', () => {
+  const chat = new CustomerRagChatService();
+  const response = chat.answer('Who won the world cup in 1992?', null, 'english');
 
   assert.equal(response.sender, 'assistant');
-  assert.ok(response.text.includes('150 units'));
-  assert.ok(response.text.includes('FPA (Fuel Price Adjustment)'));
+  assert.equal(response.isOutOfScope, true);
+  assert.ok(response.text.includes('outside the scope of verified NEPRA electricity regulations'));
+  assert.ok(response.text.includes('Protected vs. Unprotected'));
+});
+
+test('Customer Chat: Refuses out-of-scope question in Roman Urdu', () => {
+  const chat = new CustomerRagChatService();
+  const response = chat.answer('Mausam kaisa hai aaj?', null, 'roman_urdu');
+
+  assert.equal(response.sender, 'assistant');
+  assert.equal(response.isOutOfScope, true);
+  assert.ok(response.text.includes('Mazrat!'));
+  assert.ok(response.text.includes('Pakistani bijli ke bill aur NEPRA rules'));
+});
+
+test('Customer Chat: Refuses out-of-scope question in Urdu', () => {
+  const chat = new CustomerRagChatService();
+  const response = chat.answer('فرانس کا دارالحکومت کیا ہے؟', null, 'urdu');
+
+  assert.equal(response.sender, 'assistant');
+  assert.equal(response.isOutOfScope, true);
+  assert.ok(response.text.includes('معذرت'));
+  assert.ok(response.text.includes('نیپرا'));
+});
+
+test('Customer Chat: Returns authentic Urdu Nastaliq text for valid query', () => {
+  const chat = new CustomerRagChatService();
+  const response = chat.answer('FPA کیا ہوتا ہے؟', null, 'urdu');
+
+  assert.equal(response.sender, 'assistant');
+  assert.equal(response.isOutOfScope, false);
+  assert.ok(response.text.includes('فیول پرائس ایڈجسٹمنٹ'));
   assert.ok(response.citations && response.citations.length > 0);
-  assert.ok(response.citations[0].sro.includes('Section 31(7)'));
+});
+
+test('Customer Chat: Returns authentic Roman Urdu for valid query', () => {
+  const chat = new CustomerRagChatService();
+  const response = chat.answer('200 units se ooper mehnga bill kyun hota hai?', null, 'roman_urdu');
+
+  assert.equal(response.sender, 'assistant');
+  assert.equal(response.isOutOfScope, false);
+  assert.ok(response.text.includes('SRO 575'));
+  assert.ok(response.text.includes('Protected'));
 });

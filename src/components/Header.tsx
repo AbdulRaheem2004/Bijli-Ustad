@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-base text-neutral-100 tracking-tight">
-                Bijli Explainer
+                Bijli Ustad
               </span>
               <button
                 onClick={onOpenSroModal}
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             </div>
             <p className="text-xs text-neutral-400 hidden sm:block">
-              Tariff Estimator, Duplicate Bill Portal & Grounded RAG
+              Bill Explainer, Duplicate Bill Portal & Grounded RAG
             </p>
           </div>
         </div>

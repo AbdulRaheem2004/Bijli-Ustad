@@ -7,6 +7,7 @@ export interface KnowledgeChunk {
   legalAuthority: string;
   contentEnglish: string;
   contentRomanUrdu: string;
+  contentUrdu: string;
   keywords: string[];
 }
 
@@ -22,6 +23,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'Under the Federal Government policy notified via S.R.O. 575(I)/2024, residential consumers are classified as "Protected" only if their monthly electricity consumption has remained 200 units or less for 6 consecutive months. If your consumption exceeds 200 units in even a single month (e.g., 201 units), you immediately lose protected status. The entire bill is then recalculated under the punitive "Unprotected" slab schedule where per-unit rates start significantly higher. To regain protected status, you must keep consumption under 200 units for 6 consecutive billing cycles.',
     contentRomanUrdu:
       'Wafaqi Hukumat ke SRO 575 ke tehat, "Protected" sarif banne ke liye lazmi hai ke pichle lagataar 6 mahine aap ka bijli istemaal 200 units ya us se kam raha ho. Agar kisi aik mahine bhi aap ne 201 units use kar liye, toh aap foran Protected category se bahar ho jayenge aur pura bill mehngi Unprotected slabs ke tehat calculate hoga. Dobara Protected banne ke liye aap ko lagataar 6 mahine 200 units se kam rakhna hoga.',
+    contentUrdu:
+      'وفاقی حکومت کے ایس آر او 575 کے تحت، "پروٹیکٹڈ" (محفوظ) صارف بننے کے لیے لازمی ہے کہ گزشتہ مسلسل 6 ماہ تک آپ کا ماہانہ استعمال 200 یونٹ یا اس سے کم رہا ہو۔ اگر کسی ایک ماہ بھی استعمال 200 یونٹ سے تجاوز کر جائے (مثلاً 201 یونٹ)، تو آپ فوری طور پر پروٹیکٹڈ کیٹیگری سے باہر ہو جائیں گے اور پورے بل کا حساب غیر محفوظ (ان پروٹیکٹڈ) سلیب کے مطابق ہوگا جس کے نرخ نمایاں طور پر زیادہ ہیں۔ دوبارہ پروٹیکٹڈ بننے کے لیے مسلسل 6 ماہ تک 200 یا اس سے کم یونٹ رکھنا ضروری ہے۔',
     keywords: [
       'protected',
       'unprotected',
@@ -35,6 +38,9 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       '6 months',
       'chhay maheenay',
       'category',
+      'پروٹیکٹڈ',
+      'محفوظ صارف',
+      'سلیب',
     ],
   },
   {
@@ -48,6 +54,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'Fuel Price Adjustment (FPA) is a monthly statutory mechanism governed by Section 31(7) of the NEPRA Act. It represents the difference between the Reference Fuel Cost approved in the annual base tariff and the actual fuel cost incurred by CPPA-G to generate electricity in a given month (due to fluctuations in international oil, LNG, and imported coal prices). FPA is determined through public hearings and applied retroactively (e.g. July generation fuel variance is billed on consumer bills in September). FPA is charged per unit on total consumption.',
     contentRomanUrdu:
       'FPA (Fuel Price Adjustment) NEPRA Act ke Section 31(7) ke tehat har mahine lagaya jata hai. Bijli bananay ke liye jo tail, gas (RLNG) aur koyla khareeda jata hai, uski aalmi qeematon mein tabdeeli ka farq FPA kehlata hai. Ye charge aam tor par 2 maheene pehle ki bijli generation par hota hai (maslan July ka FPA September ke bill mein aata hai). FPA har unit par barabar lagta hai.',
+    contentUrdu:
+      'فیول پرائس ایڈجسٹمنٹ (FPA) نیپرا ایکٹ کے سیکشن 31(7) کے تحت ماہانہ بنیاد پر لاگو کیا جانے والا قانونی چارج ہے۔ سالانہ بنیادی ٹیرف میں بجلی بنانے کے ایندھن (تیل، گیس اور کوئلہ) کی جو قیمت مقرر کی گئی تھی اور اصل میں جو خرچ آیا، ان دونوں کا فرق FPA کہلاتا ہے۔ یہ چارج نیپرا کی عوامی سماعت کے بعد عام طور پر دو ماہ بعد بل میں شامل کیا جاتا ہے اور یہ فی یونٹ کی بنیاد پر وصول کیا جاتا ہے۔',
     keywords: [
       'fpa',
       'fuel price adjustment',
@@ -58,6 +66,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'section 31',
       'monthly adjustment',
       'arrears',
+      'فیول',
+      'ایندھن',
     ],
   },
   {
@@ -71,6 +81,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'According to Chapter 5 of the NEPRA Consumer Service Manual (CSM), DISCOs are strictly prohibited from issuing arbitrary detection bills. If a meter is suspected of being slow, defective, or tampered with: 1) DISCO must serve a written 7-day show-cause notice to the consumer with evidence; 2) The meter must be tested in an authorized laboratory in the presence of the consumer or their representative; 3) A detection bill for a slow meter can NEVER exceed 2 billing cycles unless clear evidence of direct illegal abstraction exists; 4) Consumers have the legal right to challenge any detection bill before the NEPRA Provincial Office or Electric Inspector under Section 38 of the NEPRA Act.',
     contentRomanUrdu:
       'NEPRA Consumer Service Manual (Chapter 5) ke mutabiq, koi bhi DISCO (LESCO, KE, IESCO etc.) apni marzi se farzi ya andha dhund Detection Bill nahi bhej sakti. Agar meter slow ho toh: 1) DISCO ko pehle 7 din ka written notice bhejna lazmi hai; 2) Meter ki lab testing sarif ki mojoodgi mein honi chahiye; 3) Slow meter ka detection bill ziyada se ziyada 2 maheene ka ho sakta hai, us se ziyada nahi; 4) Aap ko pura haq hai ke aap Electric Inspector ya NEPRA Provincial Office mein iske khilaf complaint darj karwayen.',
+    contentUrdu:
+      'نیپرا کنزیومر سروس مینول (چیپٹر 5) کے مطابق، کوئی بھی تقسیم کار کمپنی اپنی مرضی سے من مانا یا فرضی ڈٹیکشن بل جاری نہیں کر سکتی۔ اگر میٹر سلو یا خراب ہو تو: ۱) کمپنی کو پہلے تحریری طور پر 7 دن کا نوٹس ثبوت کے ساتھ دینا لازمی ہے؛ ۲) میٹر کی لیبارٹری ٹیسٹنگ صارف یا اس کے نمائندے کی موجودگی میں ہونی چاہیے؛ ۳) سلو میٹر کا ڈٹیکشن بل زیادہ سے زیادہ 2 ماہ سے زائد کا نہیں ہو سکتا؛ ۴) صارف کو الیکٹرک انسپکٹر یا نیپرا کے پاس اس کے خلاف شکایت درج کرانے کا قانونی حق حاصل ہے۔',
     keywords: [
       'detection bill',
       'slow meter',
@@ -83,6 +95,9 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'electric inspector',
       'chori ka ilzam',
       'bogus bill',
+      'ڈٹیکشن بل',
+      'سلو میٹر',
+      'خراب میٹر',
     ],
   },
   {
@@ -96,6 +111,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'Under CSM Chapter 4, Section 4.3, if a bill contains errors (incorrect meter reading, wrong tariff slab, duplicate charges, or excessive units), the consumer can submit an application for rectification to the Revenue Officer or Sub-Divisional Officer (SDO). The DISCO must resolve the dispute within 3 working days. While a bill is under dispute, the connection CANNOT be disconnected, and the consumer is entitled to pay an interim payment based on the average of the last 3 undisputed months until final settlement.',
     contentRomanUrdu:
       'CSM Chapter 4 ke tehat agar aap ke bill mein reading ghalat likhi gayi hai ya ghalat slab laga hai, toh aap apne SDO ya Revenue Officer ko darkhwast de saktay hain. DISCO ko 3 working days ke andar bill theek karna hota hai. Jab tak dispute chal raha ho, DISCO aap ki bijli nahi kaat sakti aur aap pichle 3 maheenon ki average payment jama karwa saktay hain.',
+    contentUrdu:
+      'نیپرا سی ایس ایم چیپٹر 4 کے تحت، اگر بل میں غلط ریڈنگ، غلط سلیب یا غیر ضروری یونٹس شامل کیے گئے ہوں، تو صارف متعلقہ ایس ڈی او یا ریونیو آفیسر کو تحریری درخواست دے سکتا ہے۔ کمپنی کو 3 دفتری ایام کے اندر بل درست کرنا لازمی ہے۔ تنازع کے دوران بجلی کا کنکشن منقطع نہیں کیا جا سکتا اور صارف گزشتہ 3 ماہ کے اوسط بل کی عبوری ادائیگی کر سکتا ہے۔',
     keywords: [
       'wrong bill',
       'ghalat bill',
@@ -107,6 +124,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'overbilling',
       'reading mistake',
       'meter reading ghalat',
+      'غلط بل',
+      'شکایت',
     ],
   },
   {
@@ -120,7 +139,9 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'QTA (Quarterly Tariff Adjustment) is determined by NEPRA every 3 months to account for capacity charges variations, system losses, and exchange rate impacts across DISCOs. FC Surcharge (Financing Cost / Debt Servicing Surcharge) is a flat Rs. 3.23 per kWh levied under S.R.O. 342(I)/2023 on all consumers (excluding lifeline) to service sovereign loans and debt repayment of the power holding company.',
     contentRomanUrdu:
       'QTA har 3 maheene baad NEPRA tay karti hai jo capacity payment aur dollar ke exchange rate ki tabdeeli ki wajah se lagti hai. FC Surcharge (Rs. 3.23 fe unit) SRO 342 ke tehat lagaya gaya hai jo circular debt aur power sector ke qarzon ki adaigi ke liye har sarif (siwaye lifeline) se wasool kiya jata hai.',
-    keywords: ['qta', 'quarterly tariff adjustment', 'fc surcharge', 'financing cost', 'debt servicing', 'sro 342'],
+    contentUrdu:
+      'کیو ٹی اے (QTA) ہر تین ماہ بعد نیپرا کی طرف سے طے کیا جاتا ہے جو کیپیسٹی چارجز اور ڈالر کی قدر میں اتار چڑھاؤ کے ازالے کے لیے ہوتا ہے۔ جبکہ ایف سی سرچارج (3.23 روپے فی یونٹ) ایس آر او 342 کے تحت پاور سیکٹر کے گردشی قرضوں کی ادائیگی کے لیے لائف لائن کے علاوہ تمام صارفین سے وصول کیا جاتا ہے۔',
+    keywords: ['qta', 'quarterly tariff adjustment', 'fc surcharge', 'financing cost', 'debt servicing', 'sro 342', 'سرچارج', 'کیو ٹی اے'],
   },
   {
     id: 'kc-solar-net-metering',
@@ -133,6 +154,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'Under NEPRA Regulations 2015, consumers with bidirectional 3-phase meters can supply excess solar energy back to the national grid. Crucial rules include: 1) Solar export units directly offset Off-Peak import units; 2) In most DISCOs, Peak consumption (evening hours) cannot be directly offset by daytime solar export units and must be settled at peak tariff; 3) If quarterly export units exceed import units, the surplus is banked as financial credit at the NEPRA determined national buyback rate (Rs. 22/unit) or rolled over to the next billing quarter.',
     contentRomanUrdu:
       'S.R.O. 892 ke tehat Solar Net-Metering wale sarfeen apni faazil bijli grid ko bech saktay hain. Aham nukaat: 1) Din ki solar generation Off-Peak units ko direct offset karti hai; 2) Sham ke Peak hours ke units solar se direct minus nahi hotay aur unka alag bill banta hai; 3) Agar quarter ke aakhir par aap ke export units import se ziada hon toh uska balance aglay maheene roll over ho jata hai ya Rs. 22 fe unit ke hisab se credit banta hai.',
+    contentUrdu:
+      'نیپرا کے 2015 کے نیٹ میٹرنگ قوانین کے تحت، بائی ڈائریکشنل میٹر کے حامل صارفین اپنی اضافی شمسی بجلی گرڈ کو فراہم کر سکتے ہیں۔ اہم اصول: ۱) دن کی سولر ایکسپورٹ بجلی براہِ راست آف پیک یونٹس سے منہا ہوتی ہے؛ ۲) شام کے پیک اوقات کے یونٹس سولر سے منہا نہیں ہوتے اور ان کا الگ بل بنتا ہے؛ ۳) اگر سہ ماہی بنیاد پر ایکسپورٹ یونٹس امپورٹ سے زیادہ ہوں تو اضافی یونٹس کا مالی کریڈٹ بن جاتا ہے یا اگلے بل کے لیے رول اوور ہو جاتا ہے۔',
     keywords: [
       'solar',
       'net metering',
@@ -144,6 +167,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'rollover',
       'solar bill',
       'inverter',
+      'سولر',
+      'نیٹ میٹرنگ',
     ],
   },
   {
@@ -157,6 +182,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'Simple mathematical consumption realities: 1) A 1.5-Ton Inverter AC consumes ~1.2 to 1.5 units per hour during initial cooling, dropping to ~0.7 units/hour when set at 26°C. Running it 8 hours/day at 26°C consumes ~170 units/month vs. 290 units/month at 20°C; 2) Water pumps (1 HP) consume ~0.8 units per 45 minutes; 3) Inverter refrigerators consume ~40-60 units/month vs 90-120 units for older non-inverters; 4) Cutting just 20-30 units to stay below 200 units saves Rs. 4,000 to Rs. 8,000 by preserving Protected status.',
     contentRomanUrdu:
       'Aham bachat ke points: 1) 1.5 Ton Inverter AC ko 26°C par chalayen. 26°C par 8 ghantay rozana chalane se maheene ke lagbhag 170 units bante hain, jabkay 20°C par 290 units bante hain; 2) 1 HP paani ki motor 45 minute chalne par 0.8 unit leti hai; 3) Purana fridge 100+ units leta hai jabkay inverter fridge 50 units leta hai; 4) Sab se bari bachat: agar aap 205 units par hain toh sirf 6 units bacha kar 199 par aane se Protected status bacha saktay hain aur bill aadhi qeemat par aa jata hai.',
+    contentUrdu:
+      'بجلی کی بچت کے اہم اصول: ۱) ڈیڑھ ٹن کا انورٹر اے سی 26 ڈگری پر چلانے سے 8 گھنٹے روزانہ پر ماہانہ تقریباً 170 یونٹس لیتا ہے جبکہ 20 ڈگری پر 290 یونٹس بنتے ہیں؛ ۲) ایک ہارس پاور کی پانی کی موٹر 45 منٹ میں تقریباً 0.8 یونٹ لیتی ہے؛ ۳) انورٹر فریج ماہانہ 40 سے 60 یونٹ لیتا ہے جبکہ پرانا فریج 100 سے زائد؛ ۴) سب سے اہم: 200 یونٹ کی حد سے نیچے رہنے سے بل نصف رہ جاتا ہے کیونکہ پروٹیکٹڈ حیثیت برقرار رہتی ہے۔',
     keywords: [
       'ac consumption',
       'inverter ac',
@@ -168,6 +195,8 @@ export const KNOWLEDGE_CORPUS: KnowledgeChunk[] = [
       'savings',
       'kam bill',
       '26 degrees',
+      'بچت',
+      'اے سی',
     ],
   },
 ];

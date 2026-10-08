@@ -1,9 +1,9 @@
-# ⚡ Bijli Bill Explainer & Estimator (Pakistan Market)
+# ⚡ Bijli Ustad (Pakistan Market)
 
-> **Category:** Fintech / Consumer Utility / Local RAG & Vision  
+> **Category:** Fintech / Consumer Utility / Local RAG & Bill Explainer  
 > **Target Audience:** Pakistani households, small businesses, and solar net-metering consumers (LESCO, K-Electric, IESCO, MEPCO, GEPCO, FESCO, PESCO, etc.)  
-> **Budget:** Strictly **$0.00** (Free tiers, client-side execution only)  
-> **Quality Standard:** Anti-Slop (GPT-Taste + Impeccable + GASP) & Ponytail Minimalism
+> **Budget:** Strictly **$0.00** (Free tiers, 100% client-side execution, zero backend database)  
+> **Quality Standard:** Anti-Slop (Impeccable UI + Tabular Numerals) & Ponytail Minimalism
 
 ---
 
@@ -11,7 +11,7 @@
 
 Pakistani electricity bills have become notoriously confusing and unpredictable. Bills are rarely just `Units × Rate` — they encompass shifting protected/unprotected slab thresholds, Peak vs. Off-Peak time-of-use tariffs, Fuel Price Adjustments (FPA), Quarterly Tariff Adjustments (QTA), Financing Cost (FC) surcharges, Electricity Duty, GST, and TV fees. Furthermore, solar net-metering consumers struggle to decipher bidirectional export/import billing, peak unit surcharges, and credit rollover adjustments.
 
-**Bijli Bill Explainer** is a lightweight, zero-cost, privacy-first web application and PWA that breaks down any Pakistani electricity bill into plain language and Roman Urdu, explaining exactly *why* the bill surged and how to optimize consumption for subsequent months.
+**Bijli Ustad** is a lightweight, zero-cost, privacy-first web application that breaks down any Pakistani electricity bill into plain language, Roman Urdu, and Urdu Nastaliq, explaining exactly *why* the bill surged and providing an official duplicate bill fetcher and grounded local RAG assistant.
 
 ---
 

@@ -1,12 +1,13 @@
 {
-  "name": "bijli-bill-explainer",
+  "name": "bijli-ustad",
   "version": "1.0.0",
-  "description": "Pakistani electricity bill explainer, tariff estimator, duplicate bill portal, and local RAG assistant",
+  "description": "Pakistani electricity bill explainer, duplicate bill portal, and local in-browser RAG assistant",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "serve": "node serve.js",
     "test": "node --experimental-strip-types --test tests/*.test.ts"
   },
   "dependencies": {
