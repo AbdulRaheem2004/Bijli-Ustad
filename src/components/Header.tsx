@@ -19,15 +19,15 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="border-b border-neutral-800 bg-neutral-900/90 backdrop-blur-md sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-2 sm:py-0 sm:h-16 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4">
         {/* Brand & Badge */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <Zap className="w-5 h-5" />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+            <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-base text-neutral-100 tracking-tight">
+              <span className="font-bold text-sm sm:text-base text-neutral-100 tracking-tight">
                 Bijli Ustad
               </span>
               <button
@@ -47,15 +47,16 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Controls: DISCO & Language */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Controls: DISCO & Language & SRO Mobile */}
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* DISCO Selector */}
-          <div className="flex items-center gap-1.5 bg-neutral-800/80 border border-neutral-700/60 rounded-lg px-2.5 py-1.5 text-xs text-neutral-300">
+          <div className="flex items-center gap-1 bg-neutral-800/80 border border-neutral-700/60 rounded-lg px-2 py-1.5 text-xs text-neutral-300 max-w-[125px] sm:max-w-none">
             <Building2 className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
             <select
               value={selectedDisco}
               onChange={(e) => onSelectDisco(e.target.value)}
-              className="bg-transparent text-neutral-200 outline-none cursor-pointer font-medium"
+              aria-label="Select DISCO"
+              className="bg-transparent text-neutral-200 outline-none cursor-pointer font-medium max-w-[95px] sm:max-w-none truncate h-9 min-h-[36px]"
             >
               {tariffsData.discos.map((d) => (
                 <option key={d.id} value={d.id} className="bg-neutral-900 text-neutral-200">
@@ -69,7 +70,8 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center bg-neutral-800/80 border border-neutral-700/60 rounded-lg p-0.5 text-xs">
             <button
               onClick={() => onSelectLanguage('english')}
-              className={`px-2 py-1 rounded font-medium transition-colors ${
+              aria-label="Switch language to English"
+              className={`min-h-[36px] min-w-[36px] px-2.5 py-1.5 rounded font-medium transition-colors ${
                 language === 'english'
                   ? 'bg-neutral-700 text-white shadow-sm'
                   : 'text-neutral-400 hover:text-neutral-200'
@@ -79,7 +81,8 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               onClick={() => onSelectLanguage('roman_urdu')}
-              className={`px-2 py-1 rounded font-medium transition-colors ${
+              aria-label="Switch language to Roman Urdu"
+              className={`min-h-[36px] min-w-[36px] px-2.5 py-1.5 rounded font-medium transition-colors ${
                 language === 'roman_urdu'
                   ? 'bg-neutral-700 text-white shadow-sm'
                   : 'text-neutral-400 hover:text-neutral-200'
@@ -89,7 +92,8 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               onClick={() => onSelectLanguage('urdu')}
-              className={`px-2 py-1 rounded font-medium font-nastaliq transition-colors ${
+              aria-label="Switch language to Urdu"
+              className={`min-h-[36px] min-w-[36px] px-2.5 py-1.5 rounded font-medium font-nastaliq transition-colors ${
                 language === 'urdu'
                   ? 'bg-neutral-700 text-white shadow-sm'
                   : 'text-neutral-400 hover:text-neutral-200'
@@ -102,7 +106,8 @@ export const Header: React.FC<HeaderProps> = ({
           {/* SRO Inspect Button on Mobile */}
           <button
             onClick={onOpenSroModal}
-            className="sm:hidden p-2 rounded-lg bg-emerald-950/50 border border-emerald-800/40 text-emerald-400"
+            aria-label="Inspect NEPRA SROs"
+            className="sm:hidden min-w-[36px] min-h-[36px] p-2 rounded-lg bg-emerald-950/50 border border-emerald-800/40 text-emerald-400 flex items-center justify-center"
             title="Inspect NEPRA SROs"
           >
             <ShieldCheck className="w-4 h-4" />

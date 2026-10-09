@@ -5,15 +5,29 @@ export function calculateBill(input: BillInput): BillCalculationResult {
   const {
     discoId,
     connectionType,
-    units,
-    peakUnits = 0,
-    offPeakUnits = 0,
-    solarExportUnits = 0,
-    solarImportUnits = 0,
-    sanctionedLoadKw = 5,
+    units: rawUnits,
+    peakUnits: rawPeakUnits = 0,
+    offPeakUnits: rawOffPeakUnits = 0,
+    solarExportUnits: rawSolarExportUnits = 0,
+    solarImportUnits: rawSolarImportUnits = 0,
+    sanctionedLoadKw: rawSanctionedLoadKw = 5,
     isFiler = true,
     customFpaRate,
   } = input;
+
+  const notes: string[] = [];
+
+  // Edge-case handling: Normalize and clamp inputs against negative values
+  if (rawUnits < 0) {
+    notes.push('Input units normalized: negative electricity consumption is impossible and clamped to 0.');
+  }
+
+  const units = Math.max(0, isNaN(Number(rawUnits)) ? 0 : Number(rawUnits));
+  const peakUnits = Math.max(0, isNaN(Number(rawPeakUnits)) ? 0 : Number(rawPeakUnits));
+  const offPeakUnits = Math.max(0, isNaN(Number(rawOffPeakUnits)) ? 0 : Number(rawOffPeakUnits));
+  const solarExportUnits = Math.max(0, isNaN(Number(rawSolarExportUnits)) ? 0 : Number(rawSolarExportUnits));
+  const solarImportUnits = Math.max(0, isNaN(Number(rawSolarImportUnits)) ? 0 : Number(rawSolarImportUnits));
+  const sanctionedLoadKw = Math.max(0, isNaN(Number(rawSanctionedLoadKw)) ? 5 : Number(rawSanctionedLoadKw));
 
   const disco = tariffsData.discos.find((d) => d.id === discoId) || tariffsData.discos[0];
   const taxesConfig = tariffsData.surcharges_and_taxes;
@@ -23,7 +37,6 @@ export function calculateBill(input: BillInput): BillCalculationResult {
 
   let baseElectricityCost = 0;
   const slabs: SlabBreakdown[] = [];
-  const notes: string[] = [];
   let isProtectedEligible = false;
   let exceededProtectedThreshold = false;
   let effectiveUnits = units;
@@ -221,12 +234,12 @@ export function calculateBill(input: BillInput): BillCalculationResult {
   const qta = Math.round(effectiveUnits * taxesConfig.qta_default_per_unit * 100) / 100;
 
   // Electricity Duty (ED) calculated on base electricity cost + surcharges
-  const edBase = baseElectricityCost + fcSurcharge + fpa + qta;
+  const edBase = Math.max(0, baseElectricityCost + fcSurcharge + fpa + qta);
   const edRate = disco.ed_rate || taxesConfig.electricity_duty_percent;
   const electricityDuty = Math.round(((edBase * edRate) / 100) * 100) / 100;
 
   // GST (18%) on (base + surcharges + ED)
-  const gstBase = edBase + electricityDuty;
+  const gstBase = Math.max(0, edBase + electricityDuty);
   const gst = Math.round(((gstBase * taxesConfig.gst_percent) / 100) * 100) / 100;
 
   // TV Fee
